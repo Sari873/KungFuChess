@@ -1,4 +1,6 @@
 #include "ScriptRunner.h"
+#include "../Model/Board.h"
+#include "../Model/GameState.h"
 #include "../Model/Piece.h"
 #include "../Model/Position.h"
 #include "../I_O/BoardPrinter.h"
@@ -31,7 +33,7 @@ Board ScriptRunner::buildBoard(const std::vector<std::vector<std::string>>& grid
             if (token == ".") continue;
 
             PieceColor color = Piece::colorFromChar(token[0]);
-            PieceKind  kind  = Piece::kindFromChar(token[1]);
+            PieceKind  kind = Piece::kindFromChar(token[1]);
             board.addPiece(std::make_unique<Piece>(nextId++, color, kind, Position(r, c)));
         }
     }
@@ -54,7 +56,8 @@ bool ScriptRunner::parseBoardLine(const std::string& line, std::ostream& out) {
 
     if (rowWidth_ == 0) {
         rowWidth_ = row.size();
-    } else if (row.size() != rowWidth_) {
+    }
+    else if (row.size() != rowWidth_) {
         out << "ERROR ROW_WIDTH_MISMATCH\n";
         return false;
     }
@@ -63,7 +66,8 @@ bool ScriptRunner::parseBoardLine(const std::string& line, std::ostream& out) {
     return true;
 }
 
-void ScriptRunner::processCommand(const std::string& line, std::ostream& out) {
+void ScriptRunner::processCommand(const std::string& line, GameEngine& engine,
+    Controller& controller, std::ostream& out) {
     std::stringstream ss(line);
     std::string cmd;
     ss >> cmd;
@@ -71,28 +75,26 @@ void ScriptRunner::processCommand(const std::string& line, std::ostream& out) {
     if (cmd == "click") {
         int x, y;
         if (ss >> x >> y) {
-            controller_.handleClick(x, y, board_);
+            controller.handleClick(x, y);
         }
     }
     else if (cmd == "wait") {
         int ms;
         if (ss >> ms) {
-            // Simulated time only - never a real sleep. Moves still apply
-            // immediately in this iteration; once RealTimeArbiter exists,
-            // this delegates time advancement to it.
-            if (ms > 0) gameClockMs_ += ms;
+            engine.advanceTime(ms);
         }
     }
     else if (cmd == "print") {
         std::string sub;
         ss >> sub;
         if (sub == "board") {
-            BoardPrinter::print(board_, out);
+            BoardPrinter::print(engine.getBoard(), out);
         }
     }
 }
 
 void ScriptRunner::run(std::istream& in, std::ostream& out) {
+    std::vector<std::string> commandLines;
     bool parsingBoard = false;
     bool parsingCommands = false;
     std::string line;
@@ -105,25 +107,26 @@ void ScriptRunner::run(std::istream& in, std::ostream& out) {
             parsingCommands = false;
             continue;
         }
-
         if (line.find("Commands:") != std::string::npos) {
             parsingBoard = false;
             parsingCommands = true;
-            if (!grid_.empty() && !boardInitialized_) {
-                board_ = buildBoard(grid_);
-                boardInitialized_ = true;
-            }
             continue;
         }
 
-        // Blank lines are ignored in both sections.
         if (line.find_first_not_of(" \t") == std::string::npos) continue;
 
         if (parsingBoard) {
-            if (!parseBoardLine(line, out)) return; // parse error, stop
+            if (!parseBoardLine(line, out)) return; // parse error already printed
         }
         else if (parsingCommands) {
-            processCommand(line, out);
+            commandLines.push_back(line);
         }
+    }
+
+    GameEngine engine{ GameState(buildBoard(grid_)) };
+    Controller controller(engine);
+
+    for (const std::string& cmd : commandLines) {
+        processCommand(cmd, engine, controller, out);
     }
 }

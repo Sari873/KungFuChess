@@ -2,10 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\KungFuChess",
-    "\\KungFuChess\\Input",
+    "\\KungFuChess\\.github",
+    "\\KungFuChess\\.github\\workflows",
+    "\\KungFuChess\\Engine",
     "\\KungFuChess\\Model",
+    "\\KungFuChess\\Tests",
     "\\KungFuChess\\TextTestRunner"
   ],
-  "SelectedNode": "\\KungFuChess\\TextTestRunner\\ScriptRunner.cpp",
+  "SelectedNode": "\\KungFuChess\\.github\\workflows\\tests.yml",
   "PreviewInSolutionExplorer": false
 }

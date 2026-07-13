@@ -1,0 +1,27 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build tests
+        run: |
+          g++ -std=c++17 \
+            Tests/*.cpp \
+            Model/Piece.cpp Model/Board.cpp \
+            Rules/RookRules.cpp Rules/BishopRules.cpp Rules/QueenRules.cpp \
+            Rules/KnightRules.cpp Rules/KingRules.cpp Rules/PawnRules.cpp \
+            Rules/RuleEngine.cpp \
+            RealTime/MotionPath.cpp RealTime/RealTimeArbiter.cpp \
+            Engine/GameEngine.cpp \
+            Input/BoardMapper.cpp Input/Controller.cpp \
+            I_O/BoardPrinter.cpp \
+            -o run_tests
+            
+      - name: Run tests
+        run: ./run_tests

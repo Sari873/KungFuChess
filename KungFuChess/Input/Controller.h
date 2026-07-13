@@ -1,16 +1,19 @@
 #pragma once
-#include "Board.h"
-#include "Position.h"
+#include "../Engine/GameEngine.h"
+#include "../Model/Position.h"
 
-// Controller translates user actions into game commands. It does not decide
-// chess legality - it only maintains selection state and delegates move
-// requests to RuleEngine (and, in a later iteration, to GameEngine).
 class Controller {
 public:
-    void handleClick(int x, int y, Board& board);
+    explicit Controller(GameEngine& engine);
+
+    void handleClick(int x, int y);
     void resetSelection();
 
+    bool hasSelection() const;
+    Position getSelected() const;
+
 private:
+    GameEngine& engine_;
     bool hasSelection_ = false;
     Position selected_;
 };
