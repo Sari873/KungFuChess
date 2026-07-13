@@ -43,7 +43,8 @@ std::vector<CaptureEvent> RealTimeArbiter::advanceTo(long long nowMs, Board& boa
     for (const Motion& m : active_) {
         if (m.hasArrived(nowMs)) {
             arrived.push_back(m);
-        } else {
+        }
+        else {
             stillFlying.push_back(m);
         }
     }
@@ -51,9 +52,9 @@ std::vector<CaptureEvent> RealTimeArbiter::advanceTo(long long nowMs, Board& boa
     // Resolve arrivals in arrival order, so two motions landing inside the same
     // advanceTo() call settle deterministically: the earlier one lands first.
     std::stable_sort(arrived.begin(), arrived.end(),
-                     [](const Motion& a, const Motion& b) {
-                         return a.getArrivalMs() < b.getArrivalMs();
-                     });
+        [](const Motion& a, const Motion& b) {
+            return a.getArrivalMs() < b.getArrivalMs();
+        });
 
     for (const Motion& m : arrived) {
         const Position& src = m.path.getSrc();
@@ -82,7 +83,7 @@ std::vector<CaptureEvent> RealTimeArbiter::advanceTo(long long nowMs, Board& boa
                 target->getKind(),
                 target->getColor(),
                 dst
-            });
+                });
         }
 
         board.movePiece(src, dst);

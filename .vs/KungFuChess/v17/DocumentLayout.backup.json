@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\KungFuChess_Project\\KungFuChess\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\KungFuChess_Project\\KungFuChess\\.github\\workflows\\tests.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.github\\workflows\\tests.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\.github\\workflows\\tests.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:KungFuChess\\.github\\workflows\\tests.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -56,18 +60,29 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "tests.yml",
-              "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\.github\\workflows\\tests.yml",
-              "RelativeDocumentMoniker": "KungFuChess\\.github\\workflows\\tests.yml",
-              "ToolTip": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\.github\\workflows\\tests.yml",
-              "RelativeToolTip": "KungFuChess\\.github\\workflows\\tests.yml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAJAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\.github\\workflows\\tests.yml",
+              "RelativeDocumentMoniker": ".github\\workflows\\tests.yml",
+              "ToolTip": "C:\\KungFuChess_Project\\KungFuChess\\.github\\workflows\\tests.yml",
+              "RelativeToolTip": ".github\\workflows\\tests.yml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2026-07-13T19:49:54.751Z",
+              "WhenOpened": "2026-07-13T20:11:23.149Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "tests.yml",
+              "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\.github\\workflows\\tests.yml",
+              "RelativeDocumentMoniker": "KungFuChess\\.github\\workflows\\tests.yml",
+              "ToolTip": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\.github\\workflows\\tests.yml",
+              "RelativeToolTip": "KungFuChess\\.github\\workflows\\tests.yml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
+              "WhenOpened": "2026-07-13T19:49:54.751Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "MoveResults.h",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Engine\\MoveResults.h",
               "RelativeDocumentMoniker": "KungFuChess\\Engine\\MoveResults.h",
@@ -75,12 +90,11 @@
               "RelativeToolTip": "KungFuChess\\Engine\\MoveResults.h",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-13T18:59:51.134Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T18:59:51.134Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GameState.h",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Model\\GameState.h",
               "RelativeDocumentMoniker": "KungFuChess\\Model\\GameState.h",
@@ -88,12 +102,11 @@
               "RelativeToolTip": "KungFuChess\\Model\\GameState.h",
               "ViewState": "AgIAAAYAAAAAAAAAAAA1wAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-13T18:49:42.362Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T18:49:42.362Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Controller.cpp",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Input\\Controller.cpp",
               "RelativeDocumentMoniker": "KungFuChess\\Input\\Controller.cpp",
@@ -101,12 +114,11 @@
               "RelativeToolTip": "KungFuChess\\Input\\Controller.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-13T18:31:27.189Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T18:31:27.189Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Controller.h",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Input\\Controller.h",
               "RelativeDocumentMoniker": "KungFuChess\\Input\\Controller.h",
@@ -114,12 +126,11 @@
               "RelativeToolTip": "KungFuChess\\Input\\Controller.h",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-13T18:30:04.121Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T18:30:04.121Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ScriptRunner.h",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\TextTestRunner\\ScriptRunner.h",
               "RelativeDocumentMoniker": "KungFuChess\\TextTestRunner\\ScriptRunner.h",
@@ -127,12 +138,11 @@
               "RelativeToolTip": "KungFuChess\\TextTestRunner\\ScriptRunner.h",
               "ViewState": "AgIAAAwAAAAAAAAAAAA1wAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-13T14:37:21.364Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T14:37:21.364Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ScriptRunner.cpp",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\TextTestRunner\\ScriptRunner.cpp",
               "RelativeDocumentMoniker": "KungFuChess\\TextTestRunner\\ScriptRunner.cpp",
@@ -140,12 +150,11 @@
               "RelativeToolTip": "KungFuChess\\TextTestRunner\\ScriptRunner.cpp",
               "ViewState": "AgIAADAAAAAAAAAAAAAAADkAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-13T14:37:19.836Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T14:37:19.836Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "KungFuChess.cpp",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\KungFuChess.cpp",
               "RelativeDocumentMoniker": "KungFuChess\\KungFuChess.cpp",
@@ -153,12 +162,11 @@
               "RelativeToolTip": "KungFuChess\\KungFuChess.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-13T14:20:15.09Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T14:20:15.09Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Board.cpp",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Model\\Board.cpp",
               "RelativeDocumentMoniker": "KungFuChess\\Model\\Board.cpp",
@@ -166,12 +174,11 @@
               "RelativeToolTip": "KungFuChess\\Model\\Board.cpp",
               "ViewState": "AgIAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-13T13:45:47.209Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T13:45:47.209Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Board.h",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Model\\Board.h",
               "RelativeDocumentMoniker": "KungFuChess\\Model\\Board.h",
@@ -179,8 +186,7 @@
               "RelativeToolTip": "KungFuChess\\Model\\Board.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-13T12:57:29.518Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T12:57:29.518Z"
             }
           ]
         }

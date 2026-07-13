@@ -1,10 +1,6 @@
 #pragma once
 #include <string>
 
-// Position represents a board cell (row, col) - not pixels.
-// It is a pure value object: it does not know board size, rendering,
-// movement rules, or input coordinates. Board-bounds checking belongs to
-// Board, not Position.
 class Position {
 public:
     Position();

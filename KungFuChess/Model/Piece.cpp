@@ -2,7 +2,8 @@
 #include <stdexcept>
 
 Piece::Piece(int id, PieceColor color, PieceKind kind, Position cell)
-    : id_(id), color_(color), kind_(kind), cell_(cell), state_(PieceState::Idle) {}
+    : id_(id), color_(color), kind_(kind), cell_(cell), state_(PieceState::Idle) {
+}
 
 int Piece::getId() const { return id_; }
 PieceColor Piece::getColor() const { return color_; }
@@ -22,24 +23,24 @@ std::string Piece::toNotation() const {
 
 PieceKind Piece::kindFromChar(char c) {
     switch (c) {
-        case 'K': return PieceKind::King;
-        case 'Q': return PieceKind::Queen;
-        case 'R': return PieceKind::Rook;
-        case 'B': return PieceKind::Bishop;
-        case 'N': return PieceKind::Knight;
-        case 'P': return PieceKind::Pawn;
-        default: throw std::invalid_argument("Unknown piece letter");
+    case 'K': return PieceKind::King;
+    case 'Q': return PieceKind::Queen;
+    case 'R': return PieceKind::Rook;
+    case 'B': return PieceKind::Bishop;
+    case 'N': return PieceKind::Knight;
+    case 'P': return PieceKind::Pawn;
+    default: throw std::invalid_argument("Unknown piece letter");
     }
 }
 
 char Piece::kindToChar(PieceKind kind) {
     switch (kind) {
-        case PieceKind::King:   return 'K';
-        case PieceKind::Queen:  return 'Q';
-        case PieceKind::Rook:   return 'R';
-        case PieceKind::Bishop: return 'B';
-        case PieceKind::Knight: return 'N';
-        case PieceKind::Pawn:   return 'P';
+    case PieceKind::King:   return 'K';
+    case PieceKind::Queen:  return 'Q';
+    case PieceKind::Rook:   return 'R';
+    case PieceKind::Bishop: return 'B';
+    case PieceKind::Knight: return 'N';
+    case PieceKind::Pawn:   return 'P';
     }
     return '?'; // unreachable
 }

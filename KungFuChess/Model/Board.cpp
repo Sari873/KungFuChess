@@ -11,7 +11,7 @@ int Board::getCols() const { return cols_; }
 
 bool Board::inBounds(const Position& pos) const {
     return pos.getRow() >= 0 && pos.getRow() < rows_ &&
-           pos.getCol() >= 0 && pos.getCol() < cols_;
+        pos.getCol() >= 0 && pos.getCol() < cols_;
 }
 
 bool Board::isEmpty(const Position& pos) const {
@@ -64,8 +64,7 @@ void Board::movePiece(const Position& src, const Position& dst) {
     if (!inBounds(src) || !inBounds(dst)) return;
 
     Piece* moving = grid_[src.getRow()][src.getCol()];
-    if (moving == nullptr) return; // should not happen for a pre-validated move
-
+    if (moving == nullptr) return; 
     Piece* captured = grid_[dst.getRow()][dst.getCol()];
     if (captured != nullptr) {
         captured->setState(PieceState::Captured);
