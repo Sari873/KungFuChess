@@ -11,6 +11,6 @@
     "\\KungFuChess\\Tests",
     "\\KungFuChess\\TextTestRunner"
   ],
-  "SelectedNode": "\\KungFuChess\\TextTestRunner\\ScriptRunner.h",
+  "SelectedNode": "\\KungFuChess\\Rules\\RuleEngine.h",
   "PreviewInSolutionExplorer": false
 }

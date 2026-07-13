@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\KungFuChess_Project\\KungFuChess\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Rules\\RuleEngine.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:KungFuChess\\Rules\\RuleEngine.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Rules\\RuleEngine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:KungFuChess\\Rules\\RuleEngine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\KungFuChess_Project\\KungFuChess\\.github\\workflows\\tests.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.github\\workflows\\tests.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -27,6 +35,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "RuleEngine.h",
+              "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Rules\\RuleEngine.h",
+              "RelativeDocumentMoniker": "KungFuChess\\Rules\\RuleEngine.h",
+              "ToolTip": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Rules\\RuleEngine.h",
+              "RelativeToolTip": "KungFuChess\\Rules\\RuleEngine.h",
+              "ViewState": "AgIAAAIAAAAAAAAAAAA1wAwAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-13T20:33:06.665Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RuleEngine.cpp",
+              "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Rules\\RuleEngine.cpp",
+              "RelativeDocumentMoniker": "KungFuChess\\Rules\\RuleEngine.cpp",
+              "ToolTip": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\Rules\\RuleEngine.cpp",
+              "RelativeToolTip": "KungFuChess\\Rules\\RuleEngine.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-13T20:33:02.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "tests.yml",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\.github\\workflows\\tests.yml",
               "RelativeDocumentMoniker": ".github\\workflows\\tests.yml",
@@ -39,7 +73,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "tests.yml",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\.github\\workflows\\tests.yml",
               "RelativeDocumentMoniker": "KungFuChess\\.github\\workflows\\tests.yml",
@@ -50,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "KungFuChess.cpp",
               "DocumentMoniker": "C:\\KungFuChess_Project\\KungFuChess\\KungFuChess\\KungFuChess.cpp",
               "RelativeDocumentMoniker": "KungFuChess\\KungFuChess.cpp",
