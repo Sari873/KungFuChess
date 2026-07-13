@@ -1,14 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.github",
+    "\\.github\\workflows",
     "\\KungFuChess",
-    "\\KungFuChess\\.github",
-    "\\KungFuChess\\.github\\workflows",
     "\\KungFuChess\\Engine",
     "\\KungFuChess\\Model",
     "\\KungFuChess\\Tests",
     "\\KungFuChess\\TextTestRunner"
   ],
-  "SelectedNode": "\\KungFuChess\\.github\\workflows\\tests.yml",
+  "SelectedNode": "\\.github\\workflows\\tests.yml",
   "PreviewInSolutionExplorer": false
 }

@@ -11,6 +11,7 @@ jobs:
       
       - name: Build tests
         run: |
+          cd KungFuChess
           g++ -std=c++17 \
             Tests/*.cpp \
             Model/Piece.cpp Model/Board.cpp \
@@ -24,4 +25,6 @@ jobs:
             -o run_tests
             
       - name: Run tests
-        run: ./run_tests
+        run: |
+          cd KungFuChess
+          ./run_tests
