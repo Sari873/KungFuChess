@@ -1,4 +1,5 @@
 #include "img.h"
+#include <algorithm>
 #include <iostream>
 #include <stdexcept>
 
@@ -136,6 +137,58 @@ void Img::fill_rect(int x, int y, int width, int height, const cv::Scalar& color
         throw std::runtime_error("Image not loaded.");
     }
     cv::rectangle(img, cv::Rect(x, y, width, height), color, cv::FILLED);
+}
+
+void Img::fill_rect_alpha(int x, int y, int width, int height,
+                          const cv::Scalar& color, double alpha) {
+    if (img.empty()) {
+        throw std::runtime_error("Image not loaded.");
+    }
+    if (width <= 0 || height <= 0) {
+        return;
+    }
+
+    alpha = std::clamp(alpha, 0.0, 1.0);
+    if (alpha <= 0.0) {
+        return;
+    }
+    if (alpha >= 1.0) {
+        fill_rect(x, y, width, height, color);
+        return;
+    }
+
+    const cv::Rect bounds(0, 0, img.cols, img.rows);
+    const cv::Rect roiRect = cv::Rect(x, y, width, height) & bounds;
+    if (roiRect.empty()) {
+        return;
+    }
+
+    cv::Mat roi = img(roiRect);
+    if (roi.channels() == 3) {
+        cv::Mat overlay(roi.size(), CV_8UC3, color);
+        cv::addWeighted(overlay, alpha, roi, 1.0 - alpha, 0.0, roi);
+        return;
+    }
+
+    if (roi.channels() == 4) {
+        cv::Mat bgr;
+        cv::cvtColor(roi, bgr, cv::COLOR_BGRA2BGR);
+        cv::Mat overlay(bgr.size(), CV_8UC3, color);
+        cv::Mat blended;
+        cv::addWeighted(overlay, alpha, bgr, 1.0 - alpha, 0.0, blended);
+
+        std::vector<cv::Mat> channels;
+        cv::split(roi, channels);
+        std::vector<cv::Mat> blendedChannels;
+        cv::split(blended, blendedChannels);
+        channels[0] = blendedChannels[0];
+        channels[1] = blendedChannels[1];
+        channels[2] = blendedChannels[2];
+        cv::merge(channels, roi);
+        return;
+    }
+
+    throw std::runtime_error("Unsupported image format for fill_rect_alpha.");
 }
 
 void Img::put_text_centered(const std::string& txt, int centerX, int centerY,

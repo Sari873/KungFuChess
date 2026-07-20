@@ -13,6 +13,7 @@ PieceState Piece::getState() const { return state_; }
 
 void Piece::setCell(const Position& cell) { cell_ = cell; }
 void Piece::setState(PieceState state) { state_ = state; }
+void Piece::setKind(PieceKind kind) { kind_ = kind; }
 
 std::string Piece::toNotation() const {
     std::string result;
@@ -42,7 +43,7 @@ char Piece::kindToChar(PieceKind kind) {
     case PieceKind::Knight: return 'N';
     case PieceKind::Pawn:   return 'P';
     }
-    return '?'; // unreachable
+    return '?'; 
 }
 
 PieceColor Piece::colorFromChar(char c) {

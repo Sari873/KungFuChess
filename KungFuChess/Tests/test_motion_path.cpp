@@ -55,3 +55,19 @@ TEST_CASE("remembers its endpoints") {
     check(path.getSrc() == Position(1, 2), "source");
     check(path.getDst() == Position(3, 4), "destination");
 }
+
+TEST_CASE("never occupies the origin after launch") {
+    MotionPath path(Position(0, 0), Position(0, 2), 0);
+    check(!path.occupies(Position(0, 0), 0), "gone at t=0");
+    check(!path.occupies(Position(0, 0), 500), "gone mid first step");
+    check(!path.occupies(Position(0, 0), 1000), "gone when entering the next cell");
+}
+
+TEST_CASE("occupies only the live path cell") {
+    MotionPath path(Position(0, 0), Position(0, 2), 0);
+    check(!path.occupies(Position(0, 1), 999), "not yet at the midpoint");
+    check(path.occupies(Position(0, 1), 1000), "present on the midpoint on enter");
+    check(path.occupies(Position(0, 1), 1500), "still on the midpoint while crossing");
+    check(path.occupies(Position(0, 2), 2000), "present on the destination at arrival");
+    check(!path.occupies(Position(0, 1), 2001), "has left the midpoint after arrival");
+}

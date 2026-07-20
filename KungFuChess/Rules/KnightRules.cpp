@@ -12,7 +12,6 @@ std::vector<Position> KnightRules::legalDestinations(const Piece& piece, const B
     for (const auto& off : offsets) {
         Position dst(src.getRow() + off[0], src.getCol() + off[1]);
         if (board.inBounds(dst)) {
-            // Knights jump over blockers - occupancy is never checked here.
             res.push_back(dst);
         }
     }

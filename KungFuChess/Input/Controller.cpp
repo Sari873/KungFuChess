@@ -1,10 +1,55 @@
 #include "Controller.h"
 #include "BoardMapper.h"
 
-Controller::Controller(GameEngine& engine) : engine_(engine) {}
+void Controller::IdleState::onClick(Controller& controller, bool inBoard, const Position& cell) {
+    if (!inBoard) {
+        return;
+    }
+
+    const Board& board = controller.engine().getBoard();
+    if (board.isEmpty(cell)) {
+        return;
+    }
+    if (controller.engine().isMoving(cell) || controller.engine().isJumping(cell)) {
+        return;
+    }
+
+    controller.select(cell);
+}
+
+void Controller::SelectedState::onClick(Controller& controller, bool inBoard, const Position& cell) {
+    if (!inBoard) {
+        controller.clearSelection();
+        return;
+    }
+
+    // Re-clicking the selected piece triggers a jump.
+    if (cell == controller.getSelected()) {
+        controller.engine().requestJump(cell);
+        controller.clearSelection();
+        return;
+    }
+
+    controller.engine().requestMove(controller.getSelected(), cell);
+    controller.clearSelection();
+}
+
+Controller::Controller(GameEngine& engine)
+    : engine_(engine), state_(std::make_unique<IdleState>()) {
+}
+
+void Controller::handleClick(int x, int y) {
+    if (engine_.isGameOver()) {
+        return;
+    }
+
+    Position cell;
+    const bool inBoard = BoardMapper::pixelsToCell(x, y, engine_.getBoard(), cell);
+    state_->onClick(*this, inBoard, cell);
+}
 
 void Controller::resetSelection() {
-    hasSelection_ = false;
+    clearSelection();
 }
 
 bool Controller::hasSelection() const {
@@ -15,29 +60,25 @@ Position Controller::getSelected() const {
     return selected_;
 }
 
-void Controller::handleClick(int x, int y) {
-    const Board& board = engine_.getBoard();
+GameEngine& Controller::engine() {
+    return engine_;
+}
 
-    Position pos;
-    bool inBoard = BoardMapper::pixelsToCell(x, y, board, pos);
+const GameEngine& Controller::engine() const {
+    return engine_;
+}
 
-    if (!hasSelection_) {
-        if (!inBoard) return;
-        if (board.isEmpty(pos)) return;
-
-        if (engine_.isMoving(pos)) return;
-
-        selected_ = pos;
-        hasSelection_ = true;
-        return;
-    }
-
-    if (!inBoard) {
-        hasSelection_ = false;
-        return;
-    }
-
-    engine_.requestMove(selected_, pos);
-
+void Controller::clearSelection() {
     hasSelection_ = false;
+    setState(std::make_unique<IdleState>());
+}
+
+void Controller::select(const Position& cell) {
+    selected_ = cell;
+    hasSelection_ = true;
+    setState(std::make_unique<SelectedState>());
+}
+
+void Controller::setState(std::unique_ptr<ISelectionState> state) {
+    state_ = std::move(state);
 }

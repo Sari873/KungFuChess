@@ -39,6 +39,8 @@ TEST_CASE("state is a plain lifecycle flag we can set") {
     check(piece.getState() == PieceState::Idle, "starts Idle");
     piece.setState(PieceState::Moving);
     check(piece.getState() == PieceState::Moving, "can become Moving");
+    piece.setState(PieceState::Jumping);
+    check(piece.getState() == PieceState::Jumping, "can become Jumping");
     piece.setState(PieceState::Captured);
     check(piece.getState() == PieceState::Captured, "can become Captured");
 }

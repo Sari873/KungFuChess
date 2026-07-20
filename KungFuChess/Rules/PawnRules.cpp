@@ -1,17 +1,24 @@
 #include "PawnRules.h"
+#include "PawnGeography.h"
 
 std::vector<Position> PawnRules::legalDestinations(const Piece& piece, const Board& board) const {
     std::vector<Position> res;
     Position src = piece.getCell();
-    int dir = (piece.getColor() == PieceColor::White) ? -1 : 1;
+    int dir = PawnGeography::forwardStep(piece.getColor());
 
-    // Forward move: only onto an empty cell, never a capture.
-    Position forward(src.getRow() + dir, src.getCol());
-    if (board.inBounds(forward) && board.isEmpty(forward)) {
-        res.push_back(forward);
+    Position oneAhead(src.getRow() + dir, src.getCol());
+    bool oneAheadFree = board.inBounds(oneAhead) && board.isEmpty(oneAhead);
+    if (oneAheadFree) {
+        res.push_back(oneAhead);
+
+        if (src.getRow() == PawnGeography::startRow(piece.getColor(), board)) {
+            Position twoAhead(src.getRow() + 2 * dir, src.getCol());
+            if (board.inBounds(twoAhead) && board.isEmpty(twoAhead)) {
+                res.push_back(twoAhead);
+            }
+        }
     }
 
-    // Diagonal capture: only onto a cell occupied by an enemy piece.
     for (int dc : {-1, 1}) {
         Position diag(src.getRow() + dir, src.getCol() + dc);
         if (!board.inBounds(diag)) continue;

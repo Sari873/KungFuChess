@@ -8,6 +8,8 @@ const char* FilePieceSpriteProvider::stateFolderFor(PieceState state) {
     switch (state) {
     case PieceState::Moving:
         return "move";
+    case PieceState::Jumping:
+        return "jump";
     case PieceState::Idle:
     case PieceState::Captured:
         return "idle";

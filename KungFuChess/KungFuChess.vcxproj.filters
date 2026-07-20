@@ -9,18 +9,72 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="View">
       <UniqueIdentifier>{b353f809-3d60-463f-bff2-1cb7dc8d99a9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Model">
       <UniqueIdentifier>{9d25db6a-142a-4832-ab17-26ef2f08ac57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Controller">
+    <Filter Include="Input">
       <UniqueIdentifier>{4c0077f7-d8a0-43a0-a47a-7b96243d4c9e}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Board.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Piece.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Position.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\StandardChessSetup.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\BoardMapper.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="View\BoardRenderer.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
+    <ClCompile Include="View\FilePieceSpriteProvider.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
+    <ClCompile Include="View\img.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Model\Board.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Piece.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Position.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\StandardChessSetup.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\BoardMapper.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="View\BoardRenderer.h">
+      <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="View\FilePieceSpriteProvider.h">
+      <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="View\IPieceSpriteProvider.h">
+      <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="View\img.h">
+      <Filter>View</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

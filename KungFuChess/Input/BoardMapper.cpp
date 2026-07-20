@@ -12,3 +12,8 @@ bool BoardMapper::pixelsToCell(int x, int y, const Board& board, Position& outPo
     outPos = candidate;
     return true;
 }
+
+void BoardMapper::cellToPixels(const Position& cell, int& outX, int& outY) {
+    outX = cell.getCol() * CELL_SIZE;
+    outY = cell.getRow() * CELL_SIZE;
+}

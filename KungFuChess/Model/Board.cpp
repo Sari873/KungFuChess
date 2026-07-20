@@ -43,6 +43,39 @@ bool Board::removePiece(const Position& pos) {
     return true;
 }
 
+void Board::detachPiece(Piece* piece) {
+    if (piece == nullptr) {
+        return;
+    }
+    for (int row = 0; row < rows_; ++row) {
+        for (int col = 0; col < cols_; ++col) {
+            if (grid_[row][col] == piece) {
+                grid_[row][col] = nullptr;
+            }
+        }
+    }
+}
+
+bool Board::placePiece(Piece* piece, const Position& dest) {
+    if (piece == nullptr || !inBounds(dest) || !isEmpty(dest)) {
+        return false;
+    }
+    detachPiece(piece);
+    grid_[dest.getRow()][dest.getCol()] = piece;
+    piece->setCell(dest);
+    return true;
+}
+
+bool Board::removePieceById(int pieceId) {
+    Piece* piece = findPieceById(pieceId);
+    if (piece == nullptr) {
+        return false;
+    }
+    detachPiece(piece);
+    piece->setState(PieceState::Captured);
+    return true;
+}
+
 const Piece* Board::getPieceAt(const Position& pos) const {
     if (!inBounds(pos)) return nullptr;
     return grid_[pos.getRow()][pos.getCol()];
@@ -73,4 +106,22 @@ void Board::movePiece(const Position& src, const Position& dst) {
     grid_[dst.getRow()][dst.getCol()] = moving;
     grid_[src.getRow()][src.getCol()] = nullptr;
     moving->setCell(dst);
+}
+
+Piece* Board::findPieceById(int pieceId) {
+    for (auto& piece : pieces_) {
+        if (piece && piece->getId() == pieceId && piece->getState() != PieceState::Captured) {
+            return piece.get();
+        }
+    }
+    return nullptr;
+}
+
+const Piece* Board::findPieceById(int pieceId) const {
+    for (const auto& piece : pieces_) {
+        if (piece && piece->getId() == pieceId && piece->getState() != PieceState::Captured) {
+            return piece.get();
+        }
+    }
+    return nullptr;
 }

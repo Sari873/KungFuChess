@@ -5,7 +5,7 @@ void PieceRules::castRay(const Position& src, int dRow, int dCol, const Board& b
 
     while (board.inBounds(cur)) {
         out.push_back(cur);
-        if (!board.isEmpty(cur)) break; // blocker included, but stop here
+        if (!board.isEmpty(cur)) break; 
         cur = Position(cur.getRow() + dRow, cur.getCol() + dCol);
     }
 }

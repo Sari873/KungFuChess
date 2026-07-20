@@ -34,7 +34,7 @@ TEST_CASE("a rejected command launches nothing") {
     check(!engine.getBoard().isEmpty(Position(0, 0)), "the rook never left");
 }
 
-TEST_CASE("an accepted command does not move the piece yet") {
+TEST_CASE("an accepted command vacates the origin immediately") {
     Board board(3, 3);
     put(board, PieceColor::White, PieceKind::Rook, 0, 0);
     GameEngine engine{GameState(std::move(board))};
@@ -42,18 +42,18 @@ TEST_CASE("an accepted command does not move the piece yet") {
     MoveResult result = engine.requestMove(Position(0, 0), Position(0, 2));
     check(result.is_accepted, "accepted");
     checkEq(result.reason, "ok", "reason is ok");
-    check(!engine.getBoard().isEmpty(Position(0, 0)), "the board has not changed");
-    check(engine.isMoving(Position(0, 0)), "the piece is in flight");
+    check(engine.getBoard().isEmpty(Position(0, 0)), "the origin is vacated at launch");
+    check(engine.hasActiveMotions(), "the piece is in flight");
 }
 
-TEST_CASE("a piece in flight is rejected with motion_in_progress") {
+TEST_CASE("a vacated origin cannot be commanded again mid-flight") {
     Board board(3, 3);
     put(board, PieceColor::White, PieceKind::Rook, 0, 0);
     GameEngine engine{GameState(std::move(board))};
 
     engine.requestMove(Position(0, 0), Position(0, 2));
-    checkEq(engine.requestMove(Position(0, 0), Position(1, 0)).reason, "motion_in_progress",
-            "a second command mid-flight is refused");
+    checkEq(engine.requestMove(Position(0, 0), Position(1, 0)).reason, "empty_source",
+            "the origin is empty while the piece flies");
 }
 
 TEST_CASE("the move becomes visible only after enough time") {
@@ -64,10 +64,12 @@ TEST_CASE("the move becomes visible only after enough time") {
     engine.requestMove(Position(0, 0), Position(0, 2)); // 2 cells -> 2000ms
 
     engine.advanceTime(1999);
-    check(!engine.getBoard().isEmpty(Position(0, 0)), "not yet at t=1999");
+    check(engine.getBoard().isEmpty(Position(0, 0)), "origin already empty");
+    check(engine.getBoard().isEmpty(Position(0, 2)), "not yet landed at t=1999");
+    check(engine.hasActiveMotions(), "still flying");
 
     engine.advanceTime(1);
-    check(engine.getBoard().isEmpty(Position(0, 0)), "the source is vacated at t=2000");
+    check(engine.getBoard().isEmpty(Position(0, 0)), "the source stays vacated");
     check(!engine.getBoard().isEmpty(Position(0, 2)), "the destination is filled at t=2000");
 }
 
@@ -124,7 +126,9 @@ TEST_CASE("advanceTime ignores zero and negative deltas") {
     engine.advanceTime(-9999);
 
     checkEq(engine.getClockMs(), 0, "the clock did not move");
-    check(!engine.getBoard().isEmpty(Position(0, 0)), "time never ran backwards into an arrival");
+    check(engine.getBoard().isEmpty(Position(0, 0)), "origin is already vacated");
+    check(engine.getBoard().isEmpty(Position(0, 1)), "time never ran into an arrival");
+    check(engine.hasActiveMotions(), "motion is still pending");
 }
 
 TEST_CASE("the clock accumulates across calls") {
@@ -146,7 +150,8 @@ TEST_CASE("a motion started later lands later") {
     engine.requestMove(Position(0, 0), Position(0, 1));  // launched at t=5000
 
     engine.advanceTime(999);
-    check(!engine.getBoard().isEmpty(Position(0, 0)), "still flying at t=5999");
+    check(engine.getBoard().isEmpty(Position(0, 1)), "still flying at t=5999");
+    check(engine.hasActiveMotions(), "motion still active");
     engine.advanceTime(1);
     check(!engine.getBoard().isEmpty(Position(0, 1)), "lands at t=6000, not at t=1000");
 }

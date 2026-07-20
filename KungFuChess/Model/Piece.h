@@ -4,8 +4,7 @@
 
 enum class PieceColor { White, Black };
 enum class PieceKind { King, Queen, Rook, Bishop, Knight, Pawn };
-
-enum class PieceState { Idle, Moving, Captured };
+enum class PieceState { Idle, Moving, Jumping, Captured };
 
 class Piece {
 public:
@@ -19,6 +18,7 @@ public:
 
     void setCell(const Position& cell);
     void setState(PieceState state);
+    void setKind(PieceKind kind);
 
     std::string toNotation() const;
 

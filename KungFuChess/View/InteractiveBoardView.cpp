@@ -49,6 +49,7 @@ void InteractiveBoardView::run(const std::string& windowName) {
             BoardRenderHints hints;
             hints.clockMs = engine_.getClockMs();
             hints.motions = engine_.activeMotions();
+            hints.jumps = engine_.activeJumps();
             hints.gameOver = engine_.isGameOver();
             hints.winner = engine_.winner();
             if (!hints.gameOver && controller_.hasSelection()) {

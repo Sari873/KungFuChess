@@ -1,5 +1,7 @@
 #pragma once
 #include "Board.h"
+#include "Piece.h"
+#include <optional>
 
 class GameState {
 public:
@@ -10,9 +12,22 @@ public:
     const Board& getBoard() const { return board_; }
 
     bool isGameOver() const { return gameOver_; }
-    void setGameOver(bool value) { gameOver_ = value; }
+    std::optional<PieceColor> winner() const { return winner_; }
+
+    void endGame(PieceColor winner) {
+        gameOver_ = true;
+        winner_ = winner;
+    }
+
+    void setGameOver(bool value) {
+        gameOver_ = value;
+        if (!value) {
+            winner_.reset();
+        }
+    }
 
 private:
     Board board_;
     bool gameOver_;
+    std::optional<PieceColor> winner_;
 };

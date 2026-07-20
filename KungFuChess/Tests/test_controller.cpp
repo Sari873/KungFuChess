@@ -45,7 +45,8 @@ TEST_CASE("the second click issues the move, which lands later") {
     controller.handleClick(px(1), px(0));
 
     check(!controller.hasSelection(), "the selection is cleared");
-    check(!engine.getBoard().isEmpty(Position(0, 0)), "the board has not changed yet");
+    check(engine.getBoard().isEmpty(Position(0, 0)), "the origin is vacated at launch");
+    check(engine.hasActiveMotions(), "the piece is in flight");
 
     engine.advanceTime(1000);
     check(!engine.getBoard().isEmpty(Position(0, 1)), "the piece arrives after enough time");
@@ -98,7 +99,7 @@ TEST_CASE("resetSelection clears an active selection") {
     check(!controller.hasSelection(), "cleared");
 }
 
-TEST_CASE("clicking the same piece twice sends a move to its own cell, which is refused") {
+TEST_CASE("clicking the same piece twice starts a jump") {
     GameEngine engine = makeEngine();
     Controller controller(engine);
 
@@ -106,6 +107,9 @@ TEST_CASE("clicking the same piece twice sends a move to its own cell, which is 
     controller.handleClick(px(0), px(0));
 
     check(!controller.hasSelection(), "the selection is cleared");
-    engine.advanceTime(99999);
-    check(!engine.getBoard().isEmpty(Position(0, 0)), "the piece stayed put");
+    check(engine.isJumping(Position(0, 0)), "re-click jumps in place");
+    check(!engine.getBoard().isEmpty(Position(0, 0)), "the piece stayed on its cell");
+
+    engine.advanceTime(1000);
+    check(!engine.isJumping(Position(0, 0)), "jump finishes after 1000ms");
 }

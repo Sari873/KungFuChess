@@ -32,17 +32,16 @@ TEST_CASE("prints a non-square board correctly") {
     checkEq(render(board), ". . . bQ\n", "one row, four cols");
 }
 
-TEST_CASE("an in-flight piece is printed at its ORIGIN, not its destination") {
-    // This is exactly what the real-time iteration is tested on.
+TEST_CASE("an in-flight piece is absent from the printed board until it lands") {
     Board board(3, 3);
     put(board, PieceColor::White, PieceKind::Rook, 0, 0);
     GameEngine engine{GameState(std::move(board))};
 
     engine.requestMove(Position(0, 0), Position(0, 2));
-    checkEq(render(engine.getBoard()), "wR . .\n. . .\n. . .\n", "the rook is still shown at (0,0)");
+    checkEq(render(engine.getBoard()), ". . .\n. . .\n. . .\n", "vacated origin is empty in print");
 
     engine.advanceTime(1000);
-    checkEq(render(engine.getBoard()), "wR . .\n. . .\n. . .\n", "still at (0,0) half way through");
+    checkEq(render(engine.getBoard()), ". . .\n. . .\n. . .\n", "still absent mid-path");
 
     engine.advanceTime(1000);
     checkEq(render(engine.getBoard()), ". . wR\n. . .\n. . .\n", "only now does it appear at (0,2)");

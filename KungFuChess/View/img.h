@@ -59,6 +59,10 @@ public:
 
     void fill_rect(int x, int y, int width, int height, const cv::Scalar& color);
 
+    /** Blend a solid BGR color over a rectangle using alpha in [0, 1]. */
+    void fill_rect_alpha(int x, int y, int width, int height,
+                         const cv::Scalar& color, double alpha);
+
     void put_text_centered(const std::string& txt, int centerX, int centerY,
                            double font_size,
                            const cv::Scalar& color = cv::Scalar(255, 255, 255),
