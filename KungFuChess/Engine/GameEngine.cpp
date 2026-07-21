@@ -1,4 +1,5 @@
 #include "GameEngine.h"
+#include "../GameConstants.h"
 #include "../Rules/RuleEngine.h"
 #include "../Rules/PromotionRules.h"
 #include "../Model/Piece.h"
@@ -91,7 +92,7 @@ std::vector<Position> GameEngine::legalDestinations(const Position& src) const {
 }
 
 void GameEngine::advanceTime(long long deltaMs) {
-    if (deltaMs <= 0) return;
+    if (deltaMs <= Kfc::Timing::kNonPositiveDeltaMs) return;
 
     clockMs_ += deltaMs;
 

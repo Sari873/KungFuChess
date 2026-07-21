@@ -1,4 +1,5 @@
 #pragma once
+#include "../GameConstants.h"
 #include "PieceRules.h"
 #include "BishopRules.h"
 #include "KingRules.h"
@@ -37,5 +38,5 @@ private:
     KnightRules knight_;
     KingRules king_;
     PawnRules pawn_;
-    std::array<const PieceRules*, 6> table_{};
+    std::array<const PieceRules*, Kfc::Limits::kPieceKindCount> table_{};
 };

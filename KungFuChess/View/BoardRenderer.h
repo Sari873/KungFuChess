@@ -1,43 +1,26 @@
 #pragma once
-#include "../Model/Board.h"
-#include "../Model/Piece.h"
-#include "../Model/Position.h"
-#include "../RealTime/RealTimeArbiter.h"
+
+#include "../Presentation/BoardRenderHints.h"
+#include "../Presentation/DisplayTypes.h"
+#include "../Presentation/IBoardRenderer.h"
 #include "IPieceSpriteProvider.h"
 #include "img.h"
 #include <memory>
-#include <optional>
 #include <string>
-#include <unordered_map>
-#include <vector>
 
-struct BoardRenderHints {
-    std::optional<Position> selected;
-    std::vector<Position> legalMoves;
-    long long clockMs = 0;
-    std::vector<MotionSnapshot> motions;
-    std::vector<JumpSnapshot> jumps;
-    bool gameOver = false;
-    std::optional<PieceColor> winner;
-};
-
-
-class BoardRenderer {
+class BoardRenderer : public IBoardRenderer {
 public:
     BoardRenderer(std::string boardImagePath, std::unique_ptr<IPieceSpriteProvider> sprites);
 
-    Img render(const Board& board, const BoardRenderHints& hints = {}) const;
-    void show(const Board& board, const BoardRenderHints& hints = {}) const;
+    Img render(const DisplayBoard& board, const BoardRenderHints& hints = {}) const override;
+    void show(const DisplayBoard& board, const BoardRenderHints& hints = {}) const;
 
 private:
-    using MotionIndex = std::unordered_map<int, const MotionSnapshot*>;
-    using JumpIndex = std::unordered_map<int, const JumpSnapshot*>;
-
-    static MotionIndex indexMotions(const BoardRenderHints& hints);
-    static JumpIndex indexJumps(const BoardRenderHints& hints);
+    static const DisplayMotion* findMotion(const BoardRenderHints& hints, int pieceId);
+    static const DisplayJump* findJump(const BoardRenderHints& hints, int pieceId);
 
     void drawPiece(Img& canvas,
-                   const Piece& piece,
+                   const DisplayPiece& piece,
                    int cell,
                    int x,
                    int y,

@@ -1,5 +1,6 @@
 #include "BoardRenderer.h"
 #include "GameOverOverlay.h"
+#include "../GameConstants.h"
 #include "../Input/BoardMapper.h"
 #include <cmath>
 #include <stdexcept>
@@ -15,26 +16,26 @@ BoardRenderer::BoardRenderer(std::string boardImagePath,
     boardBackground_.read(boardImagePath_);
 }
 
-BoardRenderer::MotionIndex BoardRenderer::indexMotions(const BoardRenderHints& hints) {
-    MotionIndex index;
-    index.reserve(hints.motions.size());
-    for (const MotionSnapshot& motion : hints.motions) {
-        index.emplace(motion.pieceId, &motion);
+const DisplayMotion* BoardRenderer::findMotion(const BoardRenderHints& hints, int pieceId) {
+    for (const DisplayMotion& motion : hints.motions) {
+        if (motion.pieceId == pieceId) {
+            return &motion;
+        }
     }
-    return index;
+    return nullptr;
 }
 
-BoardRenderer::JumpIndex BoardRenderer::indexJumps(const BoardRenderHints& hints) {
-    JumpIndex index;
-    index.reserve(hints.jumps.size());
-    for (const JumpSnapshot& jump : hints.jumps) {
-        index.emplace(jump.pieceId, &jump);
+const DisplayJump* BoardRenderer::findJump(const BoardRenderHints& hints, int pieceId) {
+    for (const DisplayJump& jump : hints.jumps) {
+        if (jump.pieceId == pieceId) {
+            return &jump;
+        }
     }
-    return index;
+    return nullptr;
 }
 
 void BoardRenderer::drawPiece(Img& canvas,
-                              const Piece& piece,
+                              const DisplayPiece& piece,
                               int cell,
                               int x,
                               int y,
@@ -43,54 +44,53 @@ void BoardRenderer::drawPiece(Img& canvas,
     if (!sprite.is_loaded()) {
         return;
     }
-    const int dx = (cell - sprite.width()) / 2;
-    const int dy = (cell - sprite.height()) / 2;
+    const int dx = (cell - sprite.width()) / Kfc::Ui::kSpriteCenterDivisor;
+    const int dy = (cell - sprite.height()) / Kfc::Ui::kSpriteCenterDivisor;
     sprite.draw_on(canvas, x + dx, y + dy);
 }
 
-Img BoardRenderer::render(const Board& board, const BoardRenderHints& hints) const {
+Img BoardRenderer::render(const DisplayBoard& board, const BoardRenderHints& hints) const {
     Img canvas = boardBackground_.clone();
     const int cell = BoardMapper::CELL_SIZE;
-    const MotionIndex motions = indexMotions(hints);
-    const JumpIndex jumps = indexJumps(hints);
-
-    for (const Position& move : hints.legalMoves) {
+    for (const CellCoord& move : hints.legalMoves) {
         if (!board.inBounds(move)) {
             continue;
         }
         int x = 0;
         int y = 0;
         BoardMapper::cellToPixels(move, x, y);
-        canvas.draw_rect(x + 8, y + 8, cell - 16, cell - 16, cv::Scalar(80, 200, 80), 2);
+        canvas.draw_rect(x + Kfc::Ui::kLegalMoveHighlightInsetPx,
+                         y + Kfc::Ui::kLegalMoveHighlightInsetPx,
+                         cell - Kfc::Ui::kLegalMoveHighlightShrinkPx,
+                         cell - Kfc::Ui::kLegalMoveHighlightShrinkPx,
+                         cv::Scalar(Kfc::Ui::Bgr::kLegalMoveHighlight[0],
+                                    Kfc::Ui::Bgr::kLegalMoveHighlight[1],
+                                    Kfc::Ui::Bgr::kLegalMoveHighlight[2]),
+                         Kfc::Ui::kLegalMoveOutlineThicknessPx);
     }
 
     if (hints.selected.has_value() && board.inBounds(*hints.selected)) {
         int sx = 0;
         int sy = 0;
         BoardMapper::cellToPixels(*hints.selected, sx, sy);
-        canvas.draw_rect(sx, sy, cell, cell, cv::Scalar(0, 220, 255), 3);
+        canvas.draw_rect(sx, sy, cell, cell,
+                         cv::Scalar(Kfc::Ui::Bgr::kSelectionHighlight[0],
+                                    Kfc::Ui::Bgr::kSelectionHighlight[1],
+                                    Kfc::Ui::Bgr::kSelectionHighlight[2]),
+                         Kfc::Ui::kSelectionOutlineThicknessPx);
     }
 
     std::unordered_set<int> drawnIds;
 
-    for (int row = 0; row < board.getRows(); ++row) {
-        for (int col = 0; col < board.getCols(); ++col) {
-            const Piece* piece = board.getPieceAt(Position(row, col));
+    for (int row = 0; row < board.rows(); ++row) {
+        for (int col = 0; col < board.cols(); ++col) {
+            const DisplayPiece* piece = board.pieceAt(CellCoord(row, col));
             if (piece == nullptr) {
                 continue;
             }
 
-            const MotionSnapshot* motion = nullptr;
-            const auto motionIt = motions.find(piece->getId());
-            if (motionIt != motions.end()) {
-                motion = motionIt->second;
-            }
-
-            const JumpSnapshot* jump = nullptr;
-            const auto jumpIt = jumps.find(piece->getId());
-            if (jumpIt != jumps.end()) {
-                jump = jumpIt->second;
-            }
+            const DisplayMotion* motion = findMotion(hints, piece->id);
+            const DisplayJump* jump = findJump(hints, piece->id);
 
             long long animElapsed = hints.clockMs;
             if (motion != nullptr) {
@@ -112,25 +112,25 @@ Img BoardRenderer::render(const Board& board, const BoardRenderHints& hints) con
                 x = static_cast<int>(x0 + (x1 - x0) * t);
                 y = static_cast<int>(y0 + (y1 - y0) * t);
             } else {
-                BoardMapper::cellToPixels(Position(row, col), x, y);
+                BoardMapper::cellToPixels(CellCoord(row, col), x, y);
                 if (jump != nullptr) {
-                    // Subtle lift so airborne pieces read as jumping in place.
-                    const double apex = 1.0 - std::abs(2.0 * jump->progressAt(hints.clockMs) - 1.0);
-                    y -= static_cast<int>(18.0 * apex);
+                    const double apex = Kfc::Progress::kComplete
+                        - std::abs(Kfc::Ui::kJumpArcWaveScale * jump->progressAt(hints.clockMs)
+                                   - Kfc::Progress::kComplete);
+                    y -= static_cast<int>(static_cast<double>(Kfc::Ui::kJumpArcMaxLiftPx) * apex);
                 }
             }
 
             drawPiece(canvas, *piece, cell, x, y, animElapsed);
-            drawnIds.insert(piece->getId());
+            drawnIds.insert(piece->id);
         }
     }
 
-    // Moving pieces are detached from the grid; draw them from active motions.
-    for (const MotionSnapshot& motion : hints.motions) {
-        if (drawnIds.count(motion.pieceId) != 0) {
+    for (const DisplayMotion& motion : hints.motions) {
+        if (drawnIds.count(motion.pieceId) != Kfc::Grid::kNeutral) {
             continue;
         }
-        const Piece* piece = board.findPieceById(motion.pieceId);
+        const DisplayPiece* piece = board.findById(motion.pieceId);
         if (piece == nullptr) {
             continue;
         }
@@ -154,6 +154,6 @@ Img BoardRenderer::render(const Board& board, const BoardRenderHints& hints) con
     return canvas;
 }
 
-void BoardRenderer::show(const Board& board, const BoardRenderHints& hints) const {
+void BoardRenderer::show(const DisplayBoard& board, const BoardRenderHints& hints) const {
     render(board, hints).show();
 }

@@ -1,16 +1,17 @@
-#pragma once
-#include "../Engine/GameEngine.h"
-#include "../Input/Controller.h"
-#include "BoardRenderer.h"
-
-class InteractiveBoardView {
-public:
-    InteractiveBoardView(GameEngine& engine, Controller& controller, BoardRenderer& renderer);
-
-    void run(const std::string& windowName = "KungFuChess");
-
-private:
-    GameEngine& engine_;
-    Controller& controller_;
-    BoardRenderer& renderer_;
-};
+#pragma once
+#include "../Presentation/IGameSession.h"
+#include "BoardRenderer.h"
+#include "../Input/Controller.h"
+
+class InteractiveBoardView {
+public:
+    InteractiveBoardView(IGameSession& session, Controller& controller, BoardRenderer& renderer);
+
+    void run(const std::string& windowName = "KungFuChess");
+
+private:
+    IGameSession& session_;
+    Controller& controller_;
+    BoardRenderer& renderer_;
+};
+

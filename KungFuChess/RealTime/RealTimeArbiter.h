@@ -1,6 +1,7 @@
 #pragma once
 #include "../Model/Board.h"
 #include "../Model/Position.h"
+#include "../GameConstants.h"
 #include "Jump.h"
 #include "Motion.h"
 #include <optional>
@@ -31,14 +32,7 @@ struct MotionSnapshot {
     long long arrivalMs = 0;
 
     double progressAt(long long nowMs) const {
-        const long long duration = arrivalMs - startMs;
-        if (duration <= 0) {
-            return 1.0;
-        }
-        const double p = static_cast<double>(nowMs - startMs) / static_cast<double>(duration);
-        if (p < 0.0) return 0.0;
-        if (p > 1.0) return 1.0;
-        return p;
+        return Kfc::Progress::fromElapsedDuration(nowMs - startMs, arrivalMs - startMs);
     }
 };
 

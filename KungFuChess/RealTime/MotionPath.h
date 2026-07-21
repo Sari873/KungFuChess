@@ -1,12 +1,13 @@
 #pragma once
 #include "../Model/Position.h"
+#include "../GameConstants.h"
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 class MotionPath {
 public:
-    static constexpr long long MS_PER_CELL = 1000;
+    static constexpr long long MS_PER_CELL = Kfc::Timing::kMsPerCell;
 
     MotionPath(const Position& src, const Position& dst, long long startMs,
                long long msPerCell = MS_PER_CELL);

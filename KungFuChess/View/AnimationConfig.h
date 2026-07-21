@@ -1,8 +1,9 @@
 #pragma once
+#include "../GameConstants.h"
 #include <string>
 
 struct AnimationConfig {
-    double framesPerSec = 4.0;
+    double framesPerSec = Kfc::Animation::kDefaultFramesPerSec;
     bool loop = true;
 
     static AnimationConfig defaultsForState(const std::string& stateFolder);

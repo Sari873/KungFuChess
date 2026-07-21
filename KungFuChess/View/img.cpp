@@ -1,4 +1,5 @@
 #include "img.h"
+#include "../GameConstants.h"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
@@ -15,7 +16,7 @@ Img& Img::read(const std::string& path,
         throw std::runtime_error("Cannot load image: " + path);
     }
 
-    if (size.first != 0 && size.second != 0) {  // Check if size is not empty
+    if (size.first != Kfc::Grid::kNeutral && size.second != Kfc::Grid::kNeutral) {
         int target_w = size.first;
         int target_h = size.second;
         int h = img.rows;
@@ -26,9 +27,9 @@ Img& Img::read(const std::string& path,
                                    static_cast<double>(target_h) / h);
             int new_w = static_cast<int>(w * scale);
             int new_h = static_cast<int>(h * scale);
-            cv::resize(img, img, cv::Size(new_w, new_h), 0, 0, interpolation);
+            cv::resize(img, img, cv::Size(new_w, new_h), Kfc::Grid::kNeutral, Kfc::Grid::kNeutral, interpolation);
         } else {
-            cv::resize(img, img, cv::Size(target_w, target_h), 0, 0, interpolation);
+            cv::resize(img, img, cv::Size(target_w, target_h), Kfc::Grid::kNeutral, Kfc::Grid::kNeutral, interpolation);
         }
     }
 
@@ -44,18 +45,18 @@ void Img::draw_on(Img& other_img, int x, int y) {
     const int h = img.rows;
     const int w = img.cols;
 
-    if (x < 0 || y < 0 || y + h > target.rows || x + w > target.cols) {
+    if (x < Kfc::Grid::kNeutral || y < Kfc::Grid::kNeutral || y + h > target.rows || x + w > target.cols) {
         throw std::runtime_error("Image does not fit at the specified position.");
     }
 
     cv::Mat roi = target(cv::Rect(x, y, w, h));
 
-    if (img.channels() == 4) {
+    if (img.channels() == Kfc::Image::kChannelRgba) {
         std::vector<cv::Mat> srcChannels;
         cv::split(img, srcChannels);
 
         cv::Mat alpha;
-        srcChannels[3].convertTo(alpha, CV_32FC1, 1.0 / 255.0);
+        srcChannels[Kfc::Image::kRgbaAlphaChannelIndex].convertTo(alpha, CV_32FC1, Kfc::Image::kByteNormalize);
         cv::Mat alpha3;
         cv::merge(std::vector<cv::Mat>{ alpha, alpha, alpha }, alpha3);
 
@@ -63,31 +64,33 @@ void Img::draw_on(Img& other_img, int x, int y) {
         cv::merge(std::vector<cv::Mat>{ srcChannels[0], srcChannels[1], srcChannels[2] }, srcBgr);
 
         cv::Mat dstBgr = roi;
-        if (roi.channels() == 4) {
+        if (roi.channels() == Kfc::Image::kChannelRgba) {
             cv::cvtColor(roi, dstBgr, cv::COLOR_BGRA2BGR);
-        } else if (roi.channels() != 3) {
+        } else if (roi.channels() != Kfc::Image::kChannelRgb) {
             throw std::runtime_error("Unsupported target image format for alpha blend.");
         }
 
         cv::Mat srcF;
         cv::Mat dstF;
-        srcBgr.convertTo(srcF, CV_32FC3, 1.0 / 255.0);
-        dstBgr.convertTo(dstF, CV_32FC3, 1.0 / 255.0);
+        srcBgr.convertTo(srcF, CV_32FC3, Kfc::Image::kByteNormalize);
+        dstBgr.convertTo(dstF, CV_32FC3, Kfc::Image::kByteNormalize);
 
-        cv::Mat outF = srcF.mul(alpha3) + dstF.mul(cv::Scalar(1.0, 1.0, 1.0) - alpha3);
+        cv::Mat outF = srcF.mul(alpha3)
+            + dstF.mul(cv::Scalar(Kfc::Image::kOpaqueAlpha, Kfc::Image::kOpaqueAlpha, Kfc::Image::kOpaqueAlpha)
+                       - alpha3);
         cv::Mat out8;
-        outF.convertTo(out8, CV_8UC3, 255.0);
+        outF.convertTo(out8, CV_8UC3, static_cast<double>(Kfc::Image::kByteMax));
 
-        if (roi.channels() == 4) {
+        if (roi.channels() == Kfc::Image::kChannelRgba) {
             cv::Mat outBgra;
             cv::cvtColor(out8, outBgra, cv::COLOR_BGR2BGRA);
             outBgra.copyTo(roi);
         } else {
             out8.copyTo(roi);
         }
-    } else if (img.channels() == 3 && roi.channels() == 3) {
+    } else if (img.channels() == Kfc::Image::kChannelRgb && roi.channels() == Kfc::Image::kChannelRgb) {
         img.copyTo(roi);
-    } else if (img.channels() == 3 && roi.channels() == 4) {
+    } else if (img.channels() == Kfc::Image::kChannelRgb && roi.channels() == Kfc::Image::kChannelRgba) {
         cv::Mat srcBgra;
         cv::cvtColor(img, srcBgra, cv::COLOR_BGR2BGRA);
         srcBgra.copyTo(roi);
@@ -113,7 +116,7 @@ void Img::show() {
     }
 
     present("KungFuChess");
-    waitKeyMs(0);
+    waitKeyMs(Kfc::Image::kBlockingShowWaitMs);
     destroyWindows();
 }
 
@@ -144,38 +147,38 @@ void Img::fill_rect_alpha(int x, int y, int width, int height,
     if (img.empty()) {
         throw std::runtime_error("Image not loaded.");
     }
-    if (width <= 0 || height <= 0) {
+    if (width <= Kfc::Grid::kNeutral || height <= Kfc::Grid::kNeutral) {
         return;
     }
 
-    alpha = std::clamp(alpha, 0.0, 1.0);
-    if (alpha <= 0.0) {
+    alpha = std::clamp(alpha, Kfc::Progress::kMin, Kfc::Progress::kMax);
+    if (alpha <= Kfc::Progress::kMin) {
         return;
     }
-    if (alpha >= 1.0) {
+    if (alpha >= Kfc::Progress::kMax) {
         fill_rect(x, y, width, height, color);
         return;
     }
 
-    const cv::Rect bounds(0, 0, img.cols, img.rows);
+    const cv::Rect bounds(Kfc::Image::kOriginX, Kfc::Image::kOriginY, img.cols, img.rows);
     const cv::Rect roiRect = cv::Rect(x, y, width, height) & bounds;
     if (roiRect.empty()) {
         return;
     }
 
     cv::Mat roi = img(roiRect);
-    if (roi.channels() == 3) {
+    if (roi.channels() == Kfc::Image::kChannelRgb) {
         cv::Mat overlay(roi.size(), CV_8UC3, color);
-        cv::addWeighted(overlay, alpha, roi, 1.0 - alpha, 0.0, roi);
+        cv::addWeighted(overlay, alpha, roi, Kfc::Progress::kMax - alpha, Kfc::Progress::kMin, roi);
         return;
     }
 
-    if (roi.channels() == 4) {
+    if (roi.channels() == Kfc::Image::kChannelRgba) {
         cv::Mat bgr;
         cv::cvtColor(roi, bgr, cv::COLOR_BGRA2BGR);
         cv::Mat overlay(bgr.size(), CV_8UC3, color);
         cv::Mat blended;
-        cv::addWeighted(overlay, alpha, bgr, 1.0 - alpha, 0.0, blended);
+        cv::addWeighted(overlay, alpha, bgr, Kfc::Progress::kMax - alpha, Kfc::Progress::kMin, blended);
 
         std::vector<cv::Mat> channels;
         cv::split(roi, channels);
@@ -197,10 +200,10 @@ void Img::put_text_centered(const std::string& txt, int centerX, int centerY,
         throw std::runtime_error("Image not loaded.");
     }
 
-    int baseline = 0;
+    int baseline = Kfc::Grid::kNeutral;
     const cv::Size size = cv::getTextSize(txt, cv::FONT_HERSHEY_SIMPLEX, font_size, thickness, &baseline);
-    const int x = centerX - size.width / 2;
-    const int y = centerY + size.height / 2;
+    const int x = centerX - size.width / Kfc::Ui::kSpriteCenterDivisor;
+    const int y = centerY + size.height / Kfc::Ui::kSpriteCenterDivisor;
     cv::putText(img, txt, cv::Point(x, y),
                 cv::FONT_HERSHEY_SIMPLEX, font_size,
                 color, thickness, cv::LINE_AA);

@@ -1,4 +1,5 @@
 #include "ScriptRunner.h"
+#include "../Adapter/GameEngineSession.h"
 #include "../Model/Board.h"
 #include "../Model/GameState.h"
 #include "../Model/Piece.h"
@@ -25,7 +26,7 @@ Board ScriptRunner::buildBoard(const std::vector<std::vector<std::string>>& grid
     int cols = grid.empty() ? 0 : static_cast<int>(grid[0].size());
 
     Board board(rows, cols);
-    int nextId = 1;
+    int nextId = Kfc::Limits::kFirstAutoPieceId;
 
     for (int r = 0; r < rows; ++r) {
         for (int c = 0; c < cols; ++c) {
@@ -124,7 +125,8 @@ void ScriptRunner::run(std::istream& in, std::ostream& out) {
     }
 
     GameEngine engine{ GameState(buildBoard(grid_)) };
-    Controller controller(engine);
+    GameEngineSession session(engine);
+    Controller controller(session);
 
     for (const std::string& cmd : commandLines) {
         processCommand(cmd, engine, controller, out);

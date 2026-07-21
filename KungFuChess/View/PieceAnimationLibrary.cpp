@@ -1,4 +1,5 @@
 #include "PieceAnimationLibrary.h"
+#include "../GameConstants.h"
 #include "AnimationConfig.h"
 #include <filesystem>
 #include <stdexcept>
@@ -34,9 +35,9 @@ AnimationClip PieceAnimationLibrary::loadClip(const std::string& notation,
     const AnimationConfig cfg = AnimationConfig::loadOrDefault(configPath.string(), fallback);
 
     std::vector<Img> frames;
-    frames.reserve(8);
+    frames.reserve(Kfc::Animation::kInitialFrameVectorReserve);
 
-    for (int i = 1; i <= 64; ++i) {
+    for (int i = Kfc::Animation::kFirstFrameNumber; i <= Kfc::Animation::kMaxSpriteFrames; ++i) {
         const fs::path framePath = spritesDir / (std::to_string(i) + ".png");
         if (!fs::exists(framePath)) {
             break;

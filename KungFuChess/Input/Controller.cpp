@@ -1,50 +1,53 @@
 #include "Controller.h"
 #include "BoardMapper.h"
 
-void Controller::IdleState::onClick(Controller& controller, bool inBoard, const Position& cell) {
+void Controller::IdleState::onClick(Controller& controller, bool inBoard, const CellCoord& cell) {
     if (!inBoard) {
         return;
     }
 
-    const Board& board = controller.engine().getBoard();
-    if (board.isEmpty(cell)) {
+    const IGameSession& session = controller.session();
+    if (session.isEmpty(cell)) {
         return;
     }
-    if (controller.engine().isMoving(cell) || controller.engine().isJumping(cell)) {
+    if (session.isMoving(cell) || session.isJumping(cell)) {
         return;
     }
 
     controller.select(cell);
 }
 
-void Controller::SelectedState::onClick(Controller& controller, bool inBoard, const Position& cell) {
+void Controller::SelectedState::onClick(Controller& controller, bool inBoard, const CellCoord& cell) {
     if (!inBoard) {
         controller.clearSelection();
         return;
     }
 
+    IGameSession& session = controller.session();
+
     // Re-clicking the selected piece triggers a jump.
     if (cell == controller.getSelected()) {
-        controller.engine().requestJump(cell);
+        session.requestJump(cell);
         controller.clearSelection();
         return;
     }
 
-    controller.engine().requestMove(controller.getSelected(), cell);
+    session.requestMove(controller.getSelected(), cell);
     controller.clearSelection();
 }
 
-Controller::Controller(GameEngine& engine)
-    : engine_(engine), state_(std::make_unique<IdleState>()) {
+Controller::Controller(IGameSession& session)
+    : session_(session), state_(std::make_unique<IdleState>()) {
 }
 
 void Controller::handleClick(int x, int y) {
-    if (engine_.isGameOver()) {
+    if (session_.isGameOver()) {
         return;
     }
 
-    Position cell;
-    const bool inBoard = BoardMapper::pixelsToCell(x, y, engine_.getBoard(), cell);
+    const DisplayBoard board = session_.board();
+    CellCoord cell;
+    const bool inBoard = BoardMapper::pixelsToCell(x, y, board.rows(), board.cols(), cell);
     state_->onClick(*this, inBoard, cell);
 }
 
@@ -56,16 +59,16 @@ bool Controller::hasSelection() const {
     return hasSelection_;
 }
 
-Position Controller::getSelected() const {
+CellCoord Controller::getSelected() const {
     return selected_;
 }
 
-GameEngine& Controller::engine() {
-    return engine_;
+IGameSession& Controller::session() {
+    return session_;
 }
 
-const GameEngine& Controller::engine() const {
-    return engine_;
+const IGameSession& Controller::session() const {
+    return session_;
 }
 
 void Controller::clearSelection() {
@@ -73,7 +76,7 @@ void Controller::clearSelection() {
     setState(std::make_unique<IdleState>());
 }
 
-void Controller::select(const Position& cell) {
+void Controller::select(const CellCoord& cell) {
     selected_ = cell;
     hasSelection_ = true;
     setState(std::make_unique<SelectedState>());

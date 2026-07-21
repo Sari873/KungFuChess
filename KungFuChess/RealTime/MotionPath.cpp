@@ -1,4 +1,5 @@
 #include "MotionPath.h"
+#include "../GameConstants.h"
 
 std::vector<Position> MotionPath::buildWaypoints(const Position& src, const Position& dst) {
     const int dr = dst.getRow() - src.getRow();
@@ -7,21 +8,21 @@ std::vector<Position> MotionPath::buildWaypoints(const Position& src, const Posi
     const int absDc = std::abs(dc);
     const int steps = std::max(absDr, absDc);
 
-    if (steps == 0) {
+    if (steps == Kfc::Grid::kNeutral) {
         return {};
     }
 
-    const bool isStraightOrDiagonal = (dr == 0 || dc == 0 || absDr == absDc);
+    const bool isStraightOrDiagonal = (dr == Kfc::Grid::kNeutral || dc == Kfc::Grid::kNeutral || absDr == absDc);
     if (!isStraightOrDiagonal) {
         return { dst };
     }
 
-    const int stepR = (dr == 0) ? 0 : dr / absDr;
-    const int stepC = (dc == 0) ? 0 : dc / absDc;
+    const int stepR = (dr == Kfc::Grid::kNeutral) ? Kfc::Grid::kNeutral : dr / absDr;
+    const int stepC = (dc == Kfc::Grid::kNeutral) ? Kfc::Grid::kNeutral : dc / absDc;
 
     std::vector<Position> points;
     points.reserve(static_cast<std::size_t>(steps));
-    for (int i = 1; i <= steps; ++i) {
+    for (int i = Kfc::Grid::kForward; i <= steps; ++i) {
         points.emplace_back(src.getRow() + i * stepR, src.getCol() + i * stepC);
     }
     return points;
@@ -42,9 +43,7 @@ MotionPath::MotionPath(const Position& src, const Position& dst, long long start
 }
 
 double MotionPath::progress(long long nowMs) const {
-    if (durationMs_ <= 0) return 1.0;
-    double p = static_cast<double>(nowMs - startMs_) / static_cast<double>(durationMs_);
-    return std::min(1.0, std::max(0.0, p));
+    return Kfc::Progress::fromElapsedDuration(nowMs - startMs_, durationMs_);
 }
 
 long long MotionPath::enterTime(std::size_t waypointIndex) const {

@@ -1,4 +1,5 @@
 #include "PawnRules.h"
+#include "../GameConstants.h"
 #include "PawnGeography.h"
 
 std::vector<Position> PawnRules::legalDestinations(const Piece& piece, const Board& board) const {
@@ -12,14 +13,14 @@ std::vector<Position> PawnRules::legalDestinations(const Piece& piece, const Boa
         res.push_back(oneAhead);
 
         if (src.getRow() == PawnGeography::startRow(piece.getColor(), board)) {
-            Position twoAhead(src.getRow() + 2 * dir, src.getCol());
+            Position twoAhead(src.getRow() + Kfc::Grid::kPawnDoubleStepCells * dir, src.getCol());
             if (board.inBounds(twoAhead) && board.isEmpty(twoAhead)) {
                 res.push_back(twoAhead);
             }
         }
     }
 
-    for (int dc : {-1, 1}) {
+    for (int dc : { Kfc::Grid::kBackward, Kfc::Grid::kForward }) {
         Position diag(src.getRow() + dir, src.getCol() + dc);
         if (!board.inBounds(diag)) continue;
 

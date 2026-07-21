@@ -1,4 +1,5 @@
 #include "RealTimeArbiter.h"
+#include "../GameConstants.h"
 #include "CollisionRules.h"
 #include "JumpRules.h"
 #include "../Model/Piece.h"
@@ -192,7 +193,7 @@ std::optional<RealTimeArbiter::Occupant> RealTimeArbiter::findEarlierOccupant(
     const Piece* stationary = board.getPieceAt(cell);
     if (stationary != nullptr && !isPieceMoving(stationary->getId())) {
         consider(stationary->getId(), stationary->getColor(),
-                 std::numeric_limits<long long>::min() / 4);
+                 Kfc::Limits::kStationaryOccupantEpochMs);
     }
 
     return best;

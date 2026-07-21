@@ -1,4 +1,5 @@
 #include "AnimationConfig.h"
+#include "../GameConstants.h"
 #include <cctype>
 #include <fstream>
 #include <sstream>
@@ -72,13 +73,13 @@ bool parseBoolAfterKey(const std::string& text, const std::string& key, bool& ou
 AnimationConfig AnimationConfig::defaultsForState(const std::string& stateFolder) {
     AnimationConfig cfg;
     if (stateFolder == "move") {
-        cfg.framesPerSec = 8.0;
+        cfg.framesPerSec = Kfc::Animation::kMoveStateFramesPerSec;
         cfg.loop = true;
     } else if (stateFolder == "jump") {
-        cfg.framesPerSec = 10.0;
+        cfg.framesPerSec = Kfc::Animation::kJumpStateFramesPerSec;
         cfg.loop = false;
     } else {
-        cfg.framesPerSec = 4.0;
+        cfg.framesPerSec = Kfc::Animation::kDefaultFramesPerSec;
         cfg.loop = true;
     }
     return cfg;

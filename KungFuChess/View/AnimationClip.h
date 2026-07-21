@@ -1,4 +1,5 @@
 #pragma once
+#include "../GameConstants.h"
 #include "img.h"
 #include <string>
 #include <vector>
@@ -14,6 +15,6 @@ public:
 
 private:
     std::vector<Img> frames_;
-    double framesPerSec_ = 4.0;
+    double framesPerSec_ = Kfc::Animation::kDefaultFramesPerSec;
     bool loop_ = true;
 };

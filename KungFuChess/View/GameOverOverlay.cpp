@@ -1,48 +1,70 @@
 #include "GameOverOverlay.h"
+#include "../GameConstants.h"
 #include <algorithm>
 #include <string>
 
-void GameOverOverlay::draw(Img& canvas, std::optional<PieceColor> winner) {
+namespace {
+
+cv::Scalar bgr(const int (&components)[3]) {
+    return cv::Scalar(components[0], components[1], components[2]);
+}
+
+} 
+
+void GameOverOverlay::draw(Img& canvas, std::optional<DisplayColor> winner) {
     const int w = canvas.width();
     const int h = canvas.height();
-    if (w <= 0 || h <= 0) {
+    if (w <= Kfc::Grid::kNeutral || h <= Kfc::Grid::kNeutral) {
         return;
     }
 
-    // Dim the entire board so the match underneath stays faintly visible.
-    canvas.fill_rect_alpha(0, 0, w, h, cv::Scalar(0, 0, 0), 0.62);
+    canvas.fill_rect_alpha(Kfc::Grid::kNeutral, Kfc::Grid::kNeutral, w, h,
+                           bgr(Kfc::Overlay::Bgr::kBoardDim), Kfc::Overlay::kBoardDimAlpha);
 
-    // Centered panel sized to the board (square-ish on typical boards).
-    const int panelW = std::clamp(static_cast<int>(w * 0.72), 280, w - 40);
-    const int panelH = std::clamp(static_cast<int>(h * 0.28), 150, h - 40);
-    const int panelX = (w - panelW) / 2;
-    const int panelY = (h - panelH) / 2;
+    const int panelW = std::clamp(static_cast<int>(w * Kfc::Overlay::kPanelWidthRatio),
+                                  Kfc::Overlay::kPanelMinWidthPx,
+                                  w - Kfc::Overlay::kPanelHorizontalMarginPx);
+    const int panelH = std::clamp(static_cast<int>(h * Kfc::Overlay::kPanelHeightRatio),
+                                  Kfc::Overlay::kPanelMinHeightPx,
+                                  h - Kfc::Overlay::kPanelVerticalMarginPx);
+    const int panelX = (w - panelW) / Kfc::Ui::kSpriteCenterDivisor;
+    const int panelY = (h - panelH) / Kfc::Ui::kSpriteCenterDivisor;
 
-    canvas.fill_rect_alpha(panelX, panelY, panelW, panelH, cv::Scalar(18, 22, 28), 0.92);
-    canvas.draw_rect(panelX, panelY, panelW, panelH, cv::Scalar(0, 210, 255), 3);
-    canvas.draw_rect(panelX + 8, panelY + 8, panelW - 16, panelH - 16, cv::Scalar(0, 140, 180), 1);
+    canvas.fill_rect_alpha(panelX, panelY, panelW, panelH,
+                           bgr(Kfc::Overlay::Bgr::kPanelFill), Kfc::Overlay::kPanelFillAlpha);
+    canvas.draw_rect(panelX, panelY, panelW, panelH,
+                     bgr(Kfc::Overlay::Bgr::kPanelOuterBorder),
+                     Kfc::Overlay::kPanelOuterBorderThicknessPx);
+    canvas.draw_rect(panelX + Kfc::Overlay::kPanelInnerInsetPx,
+                     panelY + Kfc::Overlay::kPanelInnerInsetPx,
+                     panelW - Kfc::Overlay::kPanelInnerShrinkPx,
+                     panelH - Kfc::Overlay::kPanelInnerShrinkPx,
+                     bgr(Kfc::Overlay::Bgr::kPanelInnerBorder),
+                     Kfc::Overlay::kPanelInnerBorderThicknessPx);
 
-    const int centerX = w / 2;
-    const int titleY = panelY + static_cast<int>(panelH * 0.38);
-    const int winnerY = panelY + static_cast<int>(panelH * 0.70);
+    const int centerX = w / Kfc::Ui::kSpriteCenterDivisor;
+    const int titleY = panelY + static_cast<int>(panelH * Kfc::Overlay::kTitleVerticalRatio);
+    const int winnerY = panelY + static_cast<int>(panelH * Kfc::Overlay::kWinnerVerticalRatio);
 
-    // Soft separator between title and winner line.
-    const int sepY = (titleY + winnerY) / 2;
-    const int sepW = panelW / 3;
-    canvas.fill_rect(centerX - sepW / 2, sepY, sepW, 2, cv::Scalar(0, 180, 220));
+    const int sepY = (titleY + winnerY) / Kfc::Ui::kSpriteCenterDivisor;
+    const int sepW = panelW / Kfc::Overlay::kSeparatorWidthDivisor;
+    canvas.fill_rect(centerX - sepW / Kfc::Ui::kSpriteCenterDivisor, sepY, sepW,
+                     Kfc::Overlay::kSeparatorThicknessPx, bgr(Kfc::Overlay::Bgr::kSeparator));
 
-    canvas.put_text_centered("Game Over", centerX, titleY, 1.85, cv::Scalar(245, 248, 255), 3);
+    canvas.put_text_centered("Game Over", centerX, titleY, Kfc::Overlay::kTitleFontScale,
+                             bgr(Kfc::Overlay::Bgr::kTitleText), Kfc::Overlay::kTitleFontThicknessPx);
 
     std::string winnerLine = "Draw";
-    cv::Scalar winnerColor(200, 210, 220);
+    cv::Scalar winnerColor = bgr(Kfc::Overlay::Bgr::kWinnerDefault);
     if (winner.has_value()) {
-        if (*winner == PieceColor::White) {
+        if (*winner == DisplayColor::White) {
             winnerLine = "White Wins!";
-            winnerColor = cv::Scalar(230, 235, 245);
+            winnerColor = bgr(Kfc::Overlay::Bgr::kWinnerWhite);
         } else {
             winnerLine = "Black Wins!";
-            winnerColor = cv::Scalar(0, 210, 255);
+            winnerColor = bgr(Kfc::Overlay::Bgr::kWinnerBlack);
         }
     }
-    canvas.put_text_centered(winnerLine, centerX, winnerY, 1.25, winnerColor, 2);
+    canvas.put_text_centered(winnerLine, centerX, winnerY, Kfc::Overlay::kWinnerFontScale,
+                             winnerColor, Kfc::Overlay::kWinnerFontThicknessPx);
 }

@@ -1,46 +1,46 @@
 #pragma once
-#include "../Engine/GameEngine.h"
-#include "../Model/Position.h"
+#include "../Presentation/DisplayTypes.h"
+#include "../Presentation/IGameSession.h"
 #include <memory>
 
 
 class Controller {
 public:
-    explicit Controller(GameEngine& engine);
+    explicit Controller(IGameSession& session);
 
     void handleClick(int x, int y);
     void resetSelection();
 
     bool hasSelection() const;
-    Position getSelected() const;
+    CellCoord getSelected() const;
 
-    GameEngine& engine();
-    const GameEngine& engine() const;
+    IGameSession& session();
+    const IGameSession& session() const;
 
     void clearSelection();
-    void select(const Position& cell);
+    void select(const CellCoord& cell);
 
 private:
     class ISelectionState {
     public:
         virtual ~ISelectionState() = default;
-        virtual void onClick(Controller& controller, bool inBoard, const Position& cell) = 0;
+        virtual void onClick(Controller& controller, bool inBoard, const CellCoord& cell) = 0;
     };
 
     class IdleState final : public ISelectionState {
     public:
-        void onClick(Controller& controller, bool inBoard, const Position& cell) override;
+        void onClick(Controller& controller, bool inBoard, const CellCoord& cell) override;
     };
 
     class SelectedState final : public ISelectionState {
     public:
-        void onClick(Controller& controller, bool inBoard, const Position& cell) override;
+        void onClick(Controller& controller, bool inBoard, const CellCoord& cell) override;
     };
 
     void setState(std::unique_ptr<ISelectionState> state);
 
-    GameEngine& engine_;
+    IGameSession& session_;
     std::unique_ptr<ISelectionState> state_;
     bool hasSelection_ = false;
-    Position selected_;
+    CellCoord selected_;
 };

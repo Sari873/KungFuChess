@@ -1,3 +1,5 @@
+C:\KungFuChess_Project\KungFuChess\KungFuChess\I_O\BoardParser.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\BoardParser.obj
+C:\KungFuChess_Project\KungFuChess\KungFuChess\I_O\BoardPrinter.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\BoardPrinter.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\main.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\main.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\Model\Board.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\Board.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\Model\Piece.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\Piece.obj
@@ -16,6 +18,7 @@ C:\KungFuChess_Project\KungFuChess\KungFuChess\Rules\KnightRules.cpp;C:\KungFuCh
 C:\KungFuChess_Project\KungFuChess\KungFuChess\Rules\BishopRules.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\BishopRules.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\Rules\QueenRules.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\QueenRules.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\Rules\KingRules.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\KingRules.obj
+C:\KungFuChess_Project\KungFuChess\KungFuChess\TextTestRunner\ScriptRunner.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\ScriptRunner.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\View\BoardRenderer.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\BoardRenderer.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\View\AnimationClip.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\AnimationClip.obj
 C:\KungFuChess_Project\KungFuChess\KungFuChess\View\AnimationConfig.cpp;C:\KungFuChess_Project\KungFuChess\KungFuChess\x64\Debug\AnimationConfig.obj

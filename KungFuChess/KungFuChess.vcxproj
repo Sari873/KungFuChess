@@ -80,7 +80,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -98,7 +98,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -153,6 +153,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Adapter\GameEngineSession.cpp" />
+    <ClCompile Include="Presentation\DisplayTypes.cpp" />
+    <ClCompile Include="I_O\BoardParser.cpp" />
+    <ClCompile Include="I_O\BoardPrinter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\Board.cpp" />
     <ClCompile Include="Model\Piece.cpp" />
@@ -171,6 +175,7 @@
     <ClCompile Include="Rules\BishopRules.cpp" />
     <ClCompile Include="Rules\QueenRules.cpp" />
     <ClCompile Include="Rules\KingRules.cpp" />
+    <ClCompile Include="TextTestRunner\ScriptRunner.cpp" />
     <ClCompile Include="View\BoardRenderer.cpp" />
     <ClCompile Include="View\AnimationClip.cpp" />
     <ClCompile Include="View\AnimationConfig.cpp" />
@@ -181,6 +186,15 @@
     <ClCompile Include="View\img.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameConstants.h" />
+    <ClInclude Include="Adapter\GameEngineSession.h" />
+    <ClInclude Include="Presentation\BoardRenderHints.h" />
+    <ClInclude Include="Presentation\DisplayTypes.h" />
+    <ClInclude Include="Presentation\IBoardRenderer.h" />
+    <ClInclude Include="Presentation\IGameSession.h" />
+    <ClInclude Include="Engine\MoveResults.h" />
+    <ClInclude Include="I_O\BoardParser.h" />
+    <ClInclude Include="I_O\BoardPrinter.h" />
     <ClInclude Include="Model\Board.h" />
     <ClInclude Include="Model\Piece.h" />
     <ClInclude Include="Model\Position.h" />
@@ -195,6 +209,19 @@
     <ClInclude Include="RealTime\Motion.h" />
     <ClInclude Include="RealTime\MotionPath.h" />
     <ClInclude Include="RealTime\CollisionRules.h" />
+    <ClInclude Include="Rules\BishopRules.h" />
+    <ClInclude Include="Rules\KingRules.h" />
+    <ClInclude Include="Rules\KnightRules.h" />
+    <ClInclude Include="Rules\MoveValidation.h" />
+    <ClInclude Include="Rules\PawnGeography.h" />
+    <ClInclude Include="Rules\PawnRules.h" />
+    <ClInclude Include="Rules\PieceRules.h" />
+    <ClInclude Include="Rules\PieceRulesRegistry.h" />
+    <ClInclude Include="Rules\PromotionRules.h" />
+    <ClInclude Include="Rules\QueenRules.h" />
+    <ClInclude Include="Rules\RookRules.h" />
+    <ClInclude Include="Rules\RuleEngine.h" />
+    <ClInclude Include="TextTestRunner\ScriptRunner.h" />
     <ClInclude Include="View\BoardRenderer.h" />
     <ClInclude Include="View\AnimationClip.h" />
     <ClInclude Include="View\AnimationConfig.h" />
