@@ -68,6 +68,7 @@ public:
 
     const DisplayPiece* pieceAt(const CellCoord& pos) const;
     const DisplayPiece* findById(int pieceId) const;
+    const std::vector<DisplayPiece>& piecesById() const { return byId_; }
 
 private:
     int rows_ = 0;

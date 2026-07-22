@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <limits>
 
 namespace Kfc {
@@ -123,6 +124,27 @@ constexpr int kLoopIndexFloor = 0;
 namespace Process {
 constexpr int kSuccessExitCode = 0;
 constexpr int kErrorExitCode = 1;
+}
+
+namespace Server {
+/** Headless match tick interval (ms) for the authoritative clock. */
+constexpr int kTickIntervalMs = 50;
+/** Finite demo ticks in Step 2 before the console server exits. */
+constexpr int kDemoTickCount = 5;
+/** Default TCP port for match traffic. */
+constexpr unsigned short kDefaultPort = 7777;
+/** Max JSON payload size for one framed message (bytes). */
+constexpr std::uint32_t kMaxWirePayloadBytes = 1 * 1024 * 1024;
+/** select() wait when polling sockets (ms). */
+constexpr int kSocketPollMs = 10;
+/** Client wait for LegalMoves reply (ms). */
+constexpr int kLegalMovesTimeoutMs = 2000;
+/** Matchmaking rating window (± points). */
+constexpr int kRatingMatchWindow = 100;
+/** Default rating when client omits one. */
+constexpr int kDefaultPlayerRating = 1000;
+/** Generated custom-room code length. */
+constexpr int kRoomCodeLength = 6;
 } 
 
 namespace Test {

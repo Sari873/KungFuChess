@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8a3a0694-e545-4c0e-86e6-a57fd993c933}</ProjectGuid>
-    <RootNamespace>KungFuChess</RootNamespace>
+    <ProjectGuid>{C4E8A1F2-9B3D-4E7A-8C21-5D6F0A9B1234}</ProjectGuid>
+    <RootNamespace>KungFuChessServer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -53,10 +53,8 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -70,24 +68,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <!-- OpenCV 4.11 prebuilt (vc16). Override with env OPENCV_DIR if needed. -->
-  <PropertyGroup>
-    <OpenCV_DIR Condition="'$(OpenCV_DIR)'==''">C:\Users\WIN 11\Downloads\opencv\build</OpenCV_DIR>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OpenCV_DIR)\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4110d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -106,8 +98,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OpenCV_DIR)\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4110.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -116,18 +106,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OpenCV_DIR)\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4110d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /D "$(OpenCV_DIR)\x64\vc16\bin\opencv_world4110d.dll" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -137,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)View;$(ProjectDir)Presentation;$(OpenCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -145,82 +130,66 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OpenCV_DIR)\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4110.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /D "$(OpenCV_DIR)\x64\vc16\bin\opencv_world4110.dll" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Adapter\GameEngineSession.cpp" />
-    <ClCompile Include="Presentation\DisplayTypes.cpp" />
-    <ClCompile Include="Protocol\GameFrameCodec.cpp" />
-    <ClCompile Include="Protocol\WireMessage.cpp" />
-    <ClCompile Include="Network\TcpSocket.cpp" />
-    <ClCompile Include="Client\NetworkGameSession.cpp" />
-    <ClCompile Include="Client\LobbyClient.cpp" />
+    <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="I_O\BoardParser.cpp" />
     <ClCompile Include="I_O\BoardPrinter.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\Board.cpp" />
     <ClCompile Include="Model\Piece.cpp" />
     <ClCompile Include="Model\Position.cpp" />
     <ClCompile Include="Model\StandardChessSetup.cpp" />
-    <ClCompile Include="Input\BoardMapper.cpp" />
-    <ClCompile Include="Input\Controller.cpp" />
-    <ClCompile Include="Engine\GameEngine.cpp" />
-    <ClCompile Include="RealTime\RealTimeArbiter.cpp" />
+    <ClCompile Include="Presentation\DisplayTypes.cpp" />
+    <ClCompile Include="Protocol\GameFrameCodec.cpp" />
+    <ClCompile Include="Protocol\WireMessage.cpp" />
+    <ClCompile Include="Network\TcpSocket.cpp" />
     <ClCompile Include="RealTime\MotionPath.cpp" />
-    <ClCompile Include="Rules\RuleEngine.cpp" />
-    <ClCompile Include="Rules\PieceRules.cpp" />
-    <ClCompile Include="Rules\PawnRules.cpp" />
-    <ClCompile Include="Rules\RookRules.cpp" />
-    <ClCompile Include="Rules\KnightRules.cpp" />
+    <ClCompile Include="RealTime\RealTimeArbiter.cpp" />
     <ClCompile Include="Rules\BishopRules.cpp" />
-    <ClCompile Include="Rules\QueenRules.cpp" />
     <ClCompile Include="Rules\KingRules.cpp" />
-    <ClCompile Include="TextTestRunner\ScriptRunner.cpp" />
-    <ClCompile Include="View\BoardRenderer.cpp" />
-    <ClCompile Include="View\AnimationClip.cpp" />
-    <ClCompile Include="View\AnimationConfig.cpp" />
-    <ClCompile Include="View\PieceAnimationLibrary.cpp" />
-    <ClCompile Include="View\FilePieceSpriteProvider.cpp" />
-    <ClCompile Include="View\GameOverOverlay.cpp" />
-    <ClCompile Include="View\InteractiveBoardView.cpp" />
-    <ClCompile Include="View\img.cpp" />
+    <ClCompile Include="Rules\KnightRules.cpp" />
+    <ClCompile Include="Rules\PawnRules.cpp" />
+    <ClCompile Include="Rules\PieceRules.cpp" />
+    <ClCompile Include="Rules\QueenRules.cpp" />
+    <ClCompile Include="Rules\RookRules.cpp" />
+    <ClCompile Include="Rules\RuleEngine.cpp" />
+    <ClCompile Include="Server\MatchTickLoop.cpp" />
+    <ClCompile Include="Server\TcpMatchHost.cpp" />
+    <ClCompile Include="Server\Lobby\Matchmaker.cpp" />
+    <ClCompile Include="Server\Lobby\RoomRegistry.cpp" />
+    <ClCompile Include="Server\Lobby\MatchSession.cpp" />
+    <ClCompile Include="Server\Lobby\LobbyService.cpp" />
+    <ClCompile Include="Server\ServerMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameConstants.h" />
     <ClInclude Include="Adapter\GameEngineSession.h" />
-    <ClInclude Include="Presentation\BoardRenderHints.h" />
-    <ClInclude Include="Presentation\DisplayTypes.h" />
-    <ClInclude Include="Presentation\GameFrame.h" />
-    <ClInclude Include="Presentation\IBoardRenderer.h" />
-    <ClInclude Include="Presentation\IGameSession.h" />
-    <ClInclude Include="Protocol\GameFrameCodec.h" />
-    <ClInclude Include="Protocol\WireMessage.h" />
-    <ClInclude Include="Network\MessageFramer.h" />
-    <ClInclude Include="Network\TcpSocket.h" />
     <ClInclude Include="Client\NetworkGameSession.h" />
-    <ClInclude Include="Client\LobbyClient.h" />
+    <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\MoveResults.h" />
+    <ClInclude Include="GameConstants.h" />
     <ClInclude Include="I_O\BoardParser.h" />
     <ClInclude Include="I_O\BoardPrinter.h" />
     <ClInclude Include="Model\Board.h" />
+    <ClInclude Include="Model\GameState.h" />
     <ClInclude Include="Model\Piece.h" />
     <ClInclude Include="Model\Position.h" />
-    <ClInclude Include="Model\GameState.h" />
     <ClInclude Include="Model\StandardChessSetup.h" />
-    <ClInclude Include="Input\BoardMapper.h" />
-    <ClInclude Include="Input\Controller.h" />
-    <ClInclude Include="Engine\GameEngine.h" />
+    <ClInclude Include="Network\MessageFramer.h" />
+    <ClInclude Include="Network\TcpSocket.h" />
+    <ClInclude Include="Presentation\BoardRenderHints.h" />
+    <ClInclude Include="Presentation\DisplayTypes.h" />
+    <ClInclude Include="Presentation\GameFrame.h" />
+    <ClInclude Include="Presentation\IGameSession.h" />
+    <ClInclude Include="Protocol\GameFrameCodec.h" />
+    <ClInclude Include="Protocol\WireMessage.h" />
+    <ClInclude Include="RealTime\CollisionRules.h" />
     <ClInclude Include="RealTime\Jump.h" />
     <ClInclude Include="RealTime\JumpRules.h" />
-    <ClInclude Include="RealTime\RealTimeArbiter.h" />
     <ClInclude Include="RealTime\Motion.h" />
     <ClInclude Include="RealTime\MotionPath.h" />
-    <ClInclude Include="RealTime\CollisionRules.h" />
+    <ClInclude Include="RealTime\RealTimeArbiter.h" />
     <ClInclude Include="Rules\BishopRules.h" />
     <ClInclude Include="Rules\KingRules.h" />
     <ClInclude Include="Rules\KnightRules.h" />
@@ -233,18 +202,12 @@
     <ClInclude Include="Rules\QueenRules.h" />
     <ClInclude Include="Rules\RookRules.h" />
     <ClInclude Include="Rules\RuleEngine.h" />
-    <ClInclude Include="TextTestRunner\ScriptRunner.h" />
-    <ClInclude Include="View\BoardRenderer.h" />
-    <ClInclude Include="View\AnimationClip.h" />
-    <ClInclude Include="View\AnimationConfig.h" />
-    <ClInclude Include="View\PieceAnimationLibrary.h" />
-    <ClInclude Include="View\FilePieceSpriteProvider.h" />
-    <ClInclude Include="View\GameOverOverlay.h" />
-    <ClInclude Include="View\IPieceSpriteProvider.h" />
-    <ClInclude Include="View\InteractiveBoardView.h" />
-    <ClInclude Include="View\img.h" />
+    <ClInclude Include="Server\IFrameSink.h" />
+    <ClInclude Include="Server\MatchTickLoop.h" />
+    <ClInclude Include="Server\StdoutFrameSink.h" />
+    <ClInclude Include="Server\TcpFrameSink.h" />
+    <ClInclude Include="Server\TcpMatchHost.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
